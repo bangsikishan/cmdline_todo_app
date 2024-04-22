@@ -31,7 +31,8 @@ fn main() {
         println!("[1] Create a todo");
         println!("[2] View all todos");
         println!("[3] Update a todo");
-        println!("[4] Exit");
+        println!("[4] Delete a todo");
+        println!("[5] Exit");
         println!("=====================");
         print!("Choose an option: ");
         std::io::stdout().flush().expect("Failed to flush");
@@ -53,7 +54,7 @@ fn main() {
             }
             "3" => {
                 let todo_id =
-                    read_user_input("Enter todo id: ").expect("Failed to read user input");
+                    read_user_input("Enter todo id to update: ").expect("Failed to read user input");
 
                 let result = todo_list
                     .iter()
@@ -68,6 +69,22 @@ fn main() {
                 }
             }
             "4" => {
+                let todo_id =
+                    read_user_input("Enter todo id to delete: ").expect("Failed to read user input");
+
+                let result = todo_list
+                    .iter()
+                    .position(|todo| todo.id == todo_id.parse::<i32>().unwrap());
+
+                match result {
+                    Some(index) => {
+                        todo_list.remove(index);
+                    }
+                    None => println!("Todo with ID {} not found!", todo_id),
+                }
+
+            }
+            "5" => {
                 break;
             }
             _ => {
